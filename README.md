@@ -17,15 +17,10 @@
 	- the first one would change the name of `Car`;  
 	- the second one should NOT modify anything, but retrieve the name of `Car`.  
 	Both methods must be accessible outside the class!
-	- add virtual(or abstract, based on your decision) methods to drive the `Car`
-	- make sure that the `Car` has all required methods to enable the users of the `Car` could to use them: Start, Stop, Drive,  
-	Accelerate/Decelerate
-	- add unit tests to demonstrate the use of the `Car` and the ways to drive it.
 - Unit test requirements:
    - make sure there are unit tests for all methods   
    - check boundary conditions with Unit tests
    - use defensive coding and check input parameters
    - throw exceptions if some conditions or parameters are wrong
-   - provide unit tests for constructors
 
 *Topics - classes, inheritance.*
