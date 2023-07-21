@@ -1,12 +1,12 @@
 # Inheritance: Vehicle
 
-Intermediate level task for practicing inheritance.
+A beginner-level task for practicing classes creating with inheritance relationship between them.
 
-Estimated time to complete the task - 45 min.
+Estimated time to complete the task: 1 hour.
 
 The task requires .NET 6 SDK installed.
 
-## Task description
+## Task Description
 
 - Create new classes: `Vehicle` and `Car`.  
 - Add following fields to `Vehicle` class:  
