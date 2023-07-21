@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using NUnit.Framework;
 
 namespace InheritanceVehicle.Tests
@@ -15,9 +15,7 @@ namespace InheritanceVehicle.Tests
         public void Initialize()
         {
             var assembly = typeof(Stub).Assembly;
-
-            this.vehicleType = assembly.GetTypes().FirstOrDefault(
-                t => t.Name.Equals(VehicleClassName, StringComparison.OrdinalIgnoreCase));
+            this.vehicleType = Array.Find(assembly.GetTypes(), t => t.Name.Equals(VehicleClassName, StringComparison.OrdinalIgnoreCase));
         }
 
         [Test]
@@ -30,13 +28,12 @@ namespace InheritanceVehicle.Tests
         public void All_Fields_Are_Defined()
         {
             var notDefinedFields = new List<string>();
-            var vehicleFields = this.vehicleType.GetFields(
-                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+            var vehicleFields = this.vehicleType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
 
             foreach (var field in this.fields)
             {
-                var vField = vehicleFields.FirstOrDefault(f => f.Name.ToLowerInvariant().Contains(field, StringComparison.InvariantCultureIgnoreCase));
-                if (vField == null)
+                var vField = Array.Find(vehicleFields, f => f.Name.ToLowerInvariant().Contains(field, StringComparison.InvariantCultureIgnoreCase));
+                if (vField is null)
                 {
                     notDefinedFields.Add(field);
                 }
@@ -55,11 +52,8 @@ namespace InheritanceVehicle.Tests
         [Test]
         public void MaxSpeed_Field_Is_Type_Of_Integer()
         {
-            var vehicleFields = this.vehicleType.GetFields(
-                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
-
-            var field = vehicleFields
-                .FirstOrDefault(f => f.Name.ToLowerInvariant().Contains(this.fields[1], StringComparison.InvariantCultureIgnoreCase));
+            var vehicleFields = this.vehicleType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+            var field = Array.Find(vehicleFields, f => f.Name.ToLowerInvariant().Contains(this.fields[1], StringComparison.InvariantCultureIgnoreCase));
 
             Assert.True(field.FieldType == typeof(int), $"'{field.Name}' field must be a type of INT.");
         }
@@ -67,11 +61,8 @@ namespace InheritanceVehicle.Tests
         [Test]
         public void Name_Field_Is_Type_Of_String()
         {
-            var vehicleFields = this.vehicleType.GetFields(
-                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
-
-            var field = vehicleFields
-                .FirstOrDefault(f => f.Name.ToLowerInvariant().Contains(this.fields[0], StringComparison.InvariantCultureIgnoreCase));
+            var vehicleFields = this.vehicleType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+            var field = Array.Find(vehicleFields, f => f.Name.ToLowerInvariant().Contains(this.fields[0], StringComparison.InvariantCultureIgnoreCase));
 
             Assert.True(field.FieldType == typeof(string), $"'{field.Name}' field must be a type of STRING.");
         }
@@ -79,9 +70,9 @@ namespace InheritanceVehicle.Tests
         [Test]
         public void Parametrized_Vehicle_Constructor_Is_Created()
         {
-            var paramsConstructor = this.vehicleType.GetConstructors(
-                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                .FirstOrDefault(c =>
+            var paramsConstructor = Array.Find(
+                this.vehicleType.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly),
+                c =>
                 {
                     var parameters = c.GetParameters();
                     if (parameters.Length == ConstructorParamsCount)
@@ -105,13 +96,12 @@ namespace InheritanceVehicle.Tests
         public void All_Properties_Are_Defined()
         {
             var notDefinedProperties = new List<string>();
-            var vehicleProperties = this.vehicleType.GetProperties(
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+            var vehicleProperties = this.vehicleType.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
 
             foreach (var field in this.fields)
             {
-                var property = vehicleProperties.FirstOrDefault(f => f.Name.ToLowerInvariant().Contains(field, StringComparison.InvariantCultureIgnoreCase));
-                if (property == null)
+                var property = Array.Find(vehicleProperties, f => f.Name.ToLowerInvariant().Contains(field, StringComparison.InvariantCultureIgnoreCase));
+                if (property is null)
                 {
                     notDefinedProperties.Add(field);
                 }
@@ -130,10 +120,8 @@ namespace InheritanceVehicle.Tests
         [Test]
         public void Name_Property_Is_Type_Of_String()
         {
-            var nonPublicProperties = this.vehicleType.GetProperties(
-                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
-
-            var property = nonPublicProperties.FirstOrDefault(p => p.Name.ToLowerInvariant().Contains(this.fields[0], StringComparison.InvariantCultureIgnoreCase));
+            var nonPublicProperties = this.vehicleType.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+            var property = Array.Find(nonPublicProperties, p => p.Name.ToLowerInvariant().Contains(this.fields[0], StringComparison.InvariantCultureIgnoreCase));
 
             Assert.True(property.PropertyType == typeof(string), $"'{property.Name}' property must be a type of STRING.");
         }
@@ -141,10 +129,8 @@ namespace InheritanceVehicle.Tests
         [Test]
         public void MaxSpeed_Property_Is_Type_Of_Integer()
         {
-            var publicProperties = this.vehicleType.GetProperties(
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
-
-            var property = publicProperties.FirstOrDefault(p => p.Name.ToLowerInvariant().Contains(this.fields[1], StringComparison.InvariantCultureIgnoreCase));
+            var publicProperties = this.vehicleType.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+            var property = Array.Find(publicProperties, p => p.Name.ToLowerInvariant().Contains(this.fields[1], StringComparison.InvariantCultureIgnoreCase));
 
             Assert.True(property.PropertyType == typeof(int), $"'{property.Name}' property must be a type of INT.");
         }

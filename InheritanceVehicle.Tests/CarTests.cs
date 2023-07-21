@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using NUnit.Framework;
 
 namespace InheritanceVehicle.Tests
@@ -14,7 +14,7 @@ namespace InheritanceVehicle.Tests
         public void Initialize()
         {
             var assembly = typeof(Stub).Assembly;
-            this.carType = assembly.GetTypes().FirstOrDefault(t => t.Name.Equals(CarClassName, StringComparison.OrdinalIgnoreCase));
+            this.carType = Array.Find(assembly.GetTypes(), t => t.Name.Equals(CarClassName, StringComparison.OrdinalIgnoreCase));
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace InheritanceVehicle.Tests
         public void Car_Inherits_Vehicle()
         {
             var carInstance = Activator.CreateInstance(this.carType, string.Empty, 0);
-            var vehicleType = typeof(Stub).Assembly.GetTypes().FirstOrDefault(t => t.Name.Equals(VehicleClassName, StringComparison.OrdinalIgnoreCase));
+            var vehicleType = Array.Find(typeof(Stub).Assembly.GetTypes(), t => t.Name.Equals(VehicleClassName, StringComparison.OrdinalIgnoreCase));
 
             Assert.IsInstanceOf(vehicleType, carInstance, "'Car' type does NOT inherit 'Vehicle' type.");
         }
@@ -35,8 +35,9 @@ namespace InheritanceVehicle.Tests
         [Test]
         public void Set_Name_Method_Is_Defined()
         {
-            var method = this.carType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                .FirstOrDefault(m =>
+            var method = Array.Find(
+                this.carType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly),
+                m =>
                 {
                     var parameters = m.GetParameters();
                     if (m.ReturnType == typeof(void) && parameters?.FirstOrDefault()?.ParameterType == typeof(string))
@@ -53,8 +54,9 @@ namespace InheritanceVehicle.Tests
         [Test]
         public void Get_Name_Method_Is_Defined()
         {
-            var method = this.carType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                .FirstOrDefault(m =>
+            var method = Array.Find(
+                this.carType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly),
+                m =>
                 {
                     if (m.ReturnType == typeof(string) && m.GetParameters().Length == 0)
                     {
@@ -75,9 +77,9 @@ namespace InheritanceVehicle.Tests
             var age = 5;
             var carInstance = Activator.CreateInstance(this.carType, name, age);
 
-            var setNameMethod = this.carType
-                .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                .FirstOrDefault(m =>
+            var setNameMethod = Array.Find(
+                this.carType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly),
+                m =>
                 {
                     var parameters = m.GetParameters();
                     if (m.ReturnType == typeof(void) && parameters?.FirstOrDefault()?.ParameterType == typeof(string))
@@ -88,9 +90,9 @@ namespace InheritanceVehicle.Tests
                     return false;
                 });
 
-            var getNameMethod = this.carType
-                .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
-                .FirstOrDefault(m =>
+            var getNameMethod = Array.Find(
+                this.carType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly),
+                m =>
                 {
                     if (m.ReturnType == typeof(string) && m.GetParameters().Length == 0)
                     {
@@ -100,7 +102,7 @@ namespace InheritanceVehicle.Tests
                     return false;
                 });
 
-            setNameMethod.Invoke(carInstance, new[] { newName });
+            _ = setNameMethod.Invoke(carInstance, new[] { newName });
 
             var carName = getNameMethod.Invoke(carInstance, Array.Empty<object>());
 

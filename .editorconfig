@@ -1,48 +1,51 @@
 ###############################
 # Core EditorConfig Options   #
 ###############################
-
 root = true
-
 # All files
 [*]
+charset = utf-8
 indent_style = space
+trim_trailing_whitespace = true
 
 # Code files
-[*.{cs,csx,vb,vbx}]
+[*.{cs,csx}]
 indent_size = 4
 insert_final_newline = true
-charset = utf-8-bom
+
+# Project files
+[*.{csproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
+indent_size = 2
+
+# JSON files
+[*.json]
+indent_size = 2
 
 ###############################
 # .NET Coding Conventions     #
 ###############################
 
-[*.{cs,vb}]
+[*.{cs}]
 # Organize usings
 dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = false
 
 # this. preferences
-dotnet_style_qualification_for_field = false:silent
-dotnet_style_qualification_for_property = false:silent
-dotnet_style_qualification_for_method = false:silent
-dotnet_style_qualification_for_event = false:silent
-
+dotnet_style_qualification_for_field = true:suggestion
+dotnet_style_qualification_for_property = true:suggestion
+dotnet_style_qualification_for_method = true:suggestion
+dotnet_style_qualification_for_event = true:suggestion
 # Language keywords vs BCL types preferences
 dotnet_style_predefined_type_for_locals_parameters_members = true:silent
 dotnet_style_predefined_type_for_member_access = true:silent
-
 # Parentheses preferences
 dotnet_style_parentheses_in_arithmetic_binary_operators = always_for_clarity:silent
 dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity:silent
 dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:silent
 dotnet_style_parentheses_in_other_operators = never_if_unnecessary:silent
-
 # Modifier preferences
 dotnet_style_require_accessibility_modifiers = for_non_interface_members:silent
 dotnet_style_readonly_field = true:suggestion
-
 # Expression-level preferences
 dotnet_style_object_initializer = true:suggestion
 dotnet_style_collection_initializer = true:suggestion
@@ -61,8 +64,7 @@ dotnet_style_prefer_conditional_expression_over_return = true:silent
 ###############################
 
 # Style Definitions
-dotnet_naming_style.pascal_case_style.capitalization             = pascal_case
-
+dotnet_naming_style.pascal_case_style.capitalization              = pascal_case
 # Use PascalCase for constant fields
 dotnet_naming_rule.constant_fields_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.constant_fields_should_be_pascal_case.symbols  = constant_fields
@@ -72,7 +74,7 @@ dotnet_naming_symbols.constant_fields.applicable_accessibilities  = *
 dotnet_naming_symbols.constant_fields.required_modifiers          = const
 
 ###############################
-# C# Code Style Rules         #
+# C# Coding Conventions       #
 ###############################
 
 [*.cs]
@@ -80,7 +82,6 @@ dotnet_naming_symbols.constant_fields.required_modifiers          = const
 csharp_style_var_for_built_in_types = true:silent
 csharp_style_var_when_type_is_apparent = true:silent
 csharp_style_var_elsewhere = true:silent
-
 # Expression-bodied members
 csharp_style_expression_bodied_methods = false:silent
 csharp_style_expression_bodied_constructors = false:silent
@@ -88,23 +89,19 @@ csharp_style_expression_bodied_operators = false:silent
 csharp_style_expression_bodied_properties = true:silent
 csharp_style_expression_bodied_indexers = true:silent
 csharp_style_expression_bodied_accessors = true:silent
-
-# Pattern-matching preferences
+# Pattern matching preferences
 csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
 csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
-
 # Null-checking preferences
 csharp_style_throw_expression = true:suggestion
 csharp_style_conditional_delegate_call = true:suggestion
-
 # Modifier preferences
 csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:suggestion
-
 # Expression-level preferences
-csharp_prefer_braces = true:silent
+csharp_prefer_braces = true:suggestion
 csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_prefer_simple_default_expression = true:suggestion
-csharp_style_pattern_local_over_anonymous_function = true:suggestion
+csharp_style_prefer_local_over_anonymous_function = true:suggestion
 csharp_style_inlined_variable_declaration = true:suggestion
 
 ###############################
@@ -119,12 +116,10 @@ csharp_new_line_before_finally = true
 csharp_new_line_before_members_in_object_initializers = true
 csharp_new_line_before_members_in_anonymous_types = true
 csharp_new_line_between_query_expression_clauses = true
-
 # Indentation preferences
 csharp_indent_case_contents = true
 csharp_indent_switch_labels = true
 csharp_indent_labels = flush_left
-
 # Space preferences
 csharp_space_after_cast = false
 csharp_space_after_keywords_in_control_flow_statements = true
@@ -144,10 +139,150 @@ csharp_space_after_dot = false
 csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
 
-##################################
-# Visual Basic Code Style Rules  #
-##################################
+csharp_using_directive_placement = outside_namespace
 
-[*.vb]
-# Modifier preferences
-visual_basic_preferred_modifier_order = Partial,Default,Private,Protected,Public,Friend,NotOverridable,Overridable,MustOverride,Overloads,Overrides,MustInherit,NotInheritable,Static,Shared,Shadows,ReadOnly,WriteOnly,Dim,Const,WithEvents,Widening,Narrowing,Custom,Async:suggestion
+###############################
+# Code Style Rules            #
+###############################
+
+[*.cs]
+# Language rules: this and Me preferences
+dotnet_diagnostic.IDE0003.severity = warning  # Remove this or Me qualification
+dotnet_diagnostic.IDE0009.severity = warning  # Add this or Me qualification
+# Language rules: Use language keywords for types
+dotnet_diagnostic.IDE0049.severity = error    # Use language keywords instead of framework type names for type references
+# Language rules: Modifier preferences
+dotnet_diagnostic.IDE0036.severity = warning  # Order modifiers
+dotnet_diagnostic.IDE0040.severity = warning  # Add accessibility modifiers
+dotnet_diagnostic.IDE0044.severity = warning  # Add readonly modifier
+dotnet_diagnostic.IDE0062.severity = warning  # Make local function static
+# Language rules: Parentheses preferences
+dotnet_diagnostic.IDE0047.severity = warning  # Remove unnecessary parentheses
+dotnet_diagnostic.IDE0048.severity = warning  # Add parentheses for clarity
+# Language rules: Expression-level preferences
+dotnet_diagnostic.IDE0010.severity = error    # Add missing cases to switch statement
+dotnet_diagnostic.IDE0017.severity = warning  # Use object initializers
+dotnet_diagnostic.IDE0028.severity = warning  # Use collection initializers
+dotnet_diagnostic.IDE0032.severity = warning  # Use auto-implemented property
+dotnet_diagnostic.IDE0071.severity = error    # Simplify interpolation
+dotnet_diagnostic.IDE0075.severity = error    # Simplify conditional expression
+dotnet_diagnostic.IDE0082.severity = error    # Convert typeof to nameof
+# Language rules: Namespace declaration preferences
+dotnet_diagnostic.IDE0160.severity = error    # Use block-scoped namespace
+# Language rules: Pattern matching preferences
+dotnet_diagnostic.IDE0019.severity = warning  # Use pattern matching to avoid 'as' followed by a 'null' check
+dotnet_diagnostic.IDE0020.severity = warning  # Use pattern matching to avoid is check followed by a cast (with variable)
+dotnet_diagnostic.IDE0038.severity = warning  # Use pattern matching to avoid is check followed by a cast (without variable)
+dotnet_diagnostic.IDE0170.severity = warning  # Simplify property pattern
+# Language rules: Code block preferences
+dotnet_diagnostic.IDE0011.severity = error    # Add braces
+dotnet_diagnostic.IDE0063.severity = warning  # Use simple using statement
+# Language rules: using directive preferences
+dotnet_diagnostic.IDE0065.severity = error    # using directive placement
+# Language rules: Namespace naming preferences
+dotnet_diagnostic.IDE0130.severity = error    # Namespace does not match folder structure
+# Unnecessary code rules
+dotnet_diagnostic.IDE0001.severity = warning  # Simplify name
+dotnet_diagnostic.IDE0002.severity = warning  # Simplify member access
+dotnet_diagnostic.IDE0004.severity = warning  # Remove unnecessary cast
+dotnet_diagnostic.IDE0005.severity = warning  # Remove unnecessary using directives
+dotnet_diagnostic.IDE0035.severity = error    # Remove unreachable code
+dotnet_diagnostic.IDE0051.severity = warning  # Remove unused private member
+dotnet_diagnostic.IDE0052.severity = warning  # Remove unread private member
+dotnet_diagnostic.IDE0058.severity = warning  # Remove unnecessary expression value
+dotnet_diagnostic.IDE0059.severity = warning  # Remove unnecessary value assignment
+dotnet_diagnostic.IDE0060.severity = error    # Remove unused parameter (Replacement for CA1801)
+dotnet_diagnostic.IDE0079.severity = warning  # Remove unnecessary suppression
+dotnet_diagnostic.IDE0080.severity = warning  # Remove unnecessary suppression operator
+dotnet_diagnostic.IDE0100.severity = error    # Remove unnecessary equality operator
+dotnet_diagnostic.IDE0110.severity = error    # Remove unnecessary discard
+# Formatting rules
+dotnet_diagnostic.IDE0055.severity = warning  # Formatting rule
+
+###############################
+# Code Quality Rules          #
+###############################
+
+[*.cs]
+# Design rules
+dotnet_diagnostic.CA1014.severity = error     # Mark assemblies with CLSCompliantAttribute
+dotnet_diagnostic.CA1031.severity = error     # Do not catch general exception types
+dotnet_diagnostic.CA1032.severity = error     # Implement standard exception constructors
+dotnet_diagnostic.CA1046.severity = error     # Do not overload operator equals on reference types
+# Globalization rules
+dotnet_diagnostic.CA1303.severity = none      # Do not pass literals as localized parameters
+# Maintainability rules
+dotnet_diagnostic.CA1507.severity = error     # Use nameof in place of string
+dotnet_diagnostic.CA1508.severity = error     # Avoid dead conditional code
+# Naming rules
+dotnet_diagnostic.CA1707.severity = error     # Identifiers should not contain underscores
+dotnet_diagnostic.CA1708.severity = error     # Identifiers should differ by more than case
+dotnet_diagnostic.CA1711.severity = error     # Identifiers should not have incorrect suffix
+dotnet_diagnostic.CA1712.severity = error     # Do not prefix enum values with type name
+dotnet_diagnostic.CA1715.severity = error     # Identifiers should have correct prefix
+dotnet_diagnostic.CA1716.severity = error     # Identifiers should not match keywords
+dotnet_diagnostic.CA1721.severity = error     # Property names should not match get methods
+dotnet_diagnostic.CA1724.severity = error     # Type names should not match namespaces
+dotnet_diagnostic.CA1725.severity = error     # Parameter names should match base declaration
+# Performance rules
+dotnet_diagnostic.CA1806.severity = error     # Do not ignore method results
+# Reliability rules
+dotnet_diagnostic.CA2007.severity = none      # Do not directly await a Task
+# Usage rules
+dotnet_diagnostic.CA1801.severity = error     # Review unused parameters
+dotnet_diagnostic.CA2208.severity = error     # Instantiate argument exceptions correctly
+dotnet_diagnostic.CA2211.severity = error     # Non-constant fields should not be visible
+dotnet_diagnostic.CA2219.severity = error     # Do not raise exceptions in exception clauses
+
+###############################
+# StyleCop Rules              #
+###############################
+
+[*.cs]
+# Special Rules
+dotnet_diagnostic.SA0001.severity = none      # XmlCommentAnalysisDisabled
+dotnet_diagnostic.SA1001.severity = warning   # CommasMustBeSpacedCorrectly
+dotnet_diagnostic.SA1002.severity = warning   # SemicolonsMustBeSpacedCorrectly
+dotnet_diagnostic.SA1003.severity = warning   # SymbolsMustBeSpacedCorrectly
+dotnet_diagnostic.SA1008.severity = warning   # OpeningParenthesisMustBeSpacedCorrectly
+dotnet_diagnostic.SA1009.severity = warning   # ClosingParenthesisMustBeSpacedCorrectly
+dotnet_diagnostic.SA1010.severity = warning   # OpeningSquareBracketsMustBeSpacedCorrectly
+dotnet_diagnostic.SA1011.severity = warning   # ClosingSquareBracketsMustBeSpacedCorrectly
+dotnet_diagnostic.SA1012.severity = warning   # OpeningBracesMustBeSpacedCorrectly
+dotnet_diagnostic.SA1013.severity = warning   # ClosingBracesMustBeSpacedCorrectly
+dotnet_diagnostic.SA1014.severity = warning   # OpeningGenericBracketsMustBeSpacedCorrectly
+dotnet_diagnostic.SA1015.severity = warning   # ClosingGenericBracketsMustBeSpacedCorrectly
+dotnet_diagnostic.SA1016.severity = warning   # OpeningAttributeBracketsMustBeSpacedCorrectly
+dotnet_diagnostic.SA1017.severity = warning   # ClosingAttributeBracketsMustBeSpacedCorrectly
+dotnet_diagnostic.SA1018.severity = warning   # NullableTypeSymbolsMustNotBePrecededBySpace
+dotnet_diagnostic.SA1019.severity = warning   # MemberAccessSymbolsMustBeSpacedCorrectly
+dotnet_diagnostic.SA1020.severity = warning   # IncrementDecrementSymbolsMustBeSpacedCorrectly
+dotnet_diagnostic.SA1021.severity = warning   # NegativeSignsMustBeSpacedCorrectly
+dotnet_diagnostic.SA1022.severity = warning   # PositiveSignsMustBeSpacedCorrectly
+dotnet_diagnostic.SA1024.severity = warning   # ColonsMustBeSpacedCorrectly
+dotnet_diagnostic.SA1025.severity = warning   # CodeMustNotContainMultipleWhitespaceInARow
+dotnet_diagnostic.SA1026.severity = warning   # CodeMustNotContainSpaceAfterNewKeywordInImplicitlyTypedArrayAllocation
+dotnet_diagnostic.SA1027.severity = warning   # UseTabsCorrectly
+dotnet_diagnostic.SA1028.severity = error     # CodeMustNotContainTrailingWhitespace
+# Readability rules
+dotnet_diagnostic.SA1101.severity = warning   # PrefixLocalCallsWithThis
+dotnet_diagnostic.SA1106.severity = error     # CodeMustNotContainEmptyStatements
+dotnet_diagnostic.SA1107.severity = error     # CodeMustNotContainMultipleStatementsOnOneLine
+dotnet_diagnostic.SA1110.severity = warning   # OpeningParenthesisMustBeOnDeclarationLine
+dotnet_diagnostic.SA1121.severity = error     # UseBuiltInTypeAlias
+dotnet_diagnostic.SA1133.severity = none      # DoNotCombineAttributes
+# Ordering rules
+dotnet_diagnostic.SA1200.severity = error     # UsingDirectivesMustBePlacedCorrectly
+# Maintainability rules
+dotnet_diagnostic.SA1400.severity = error     # AccessModifierMustBeDeclared
+# Layout rules
+dotnet_diagnostic.SA1503.severity = error     # BracesMustNotBeOmitted
+# Documentation rules
+dotnet_diagnostic.SA1600.severity = none      # ElementsMustBeDocumented
+dotnet_diagnostic.SA1601.severity = none      # PartialElementsMustBeDocumented
+dotnet_diagnostic.SA1602.severity = none      # EnumerationItemsMustBeDocumented
+dotnet_diagnostic.SA1611.severity = none      # ElementParametersMustBeDocumented
+dotnet_diagnostic.SA1615.severity = none      # ElementReturnValueMustBeDocumented
+dotnet_diagnostic.SA1618.severity = none      # GenericTypeParametersMustBeDocumented
+dotnet_diagnostic.SA1625.severity = none      # ElementDocumentationMustNotBeCopiedAndPasted
+dotnet_diagnostic.SA1633.severity = none      # FileMustHaveHeader
